@@ -1,21 +1,46 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Node database tutorial</title>
-</head>
-<body>
-<form class="create_restaurant">
-    <h1>Add restaurant</h1>
-    <input type="text" class="name" placeholder="name">
-    <input type="text" class="neighborhood" placeholder="neighborhood">
-    <input type="text" class="photography" placeholder="photography">
-    <input type="text" class="address" placeholder="address">
-    <input type="text" class="latlng" placeholder="latlng">
-    <input type="text" class="cuisine_type" placeholder="cuisine_type">
-    <input type="text" class="operating_hours" placeholder="operating_hours">
-    <input type="submit" value="Add restaurant">
-</form>
 
-<script src="/app.js"></script>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <link rel="stylesheet" href="css/styles.css">
+  <title>Restaurant Reviews</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+  </header>
+
+  <main id="maincontent">
+    <section id="map-container">
+      <div aria-label="Map" id="map"></div>
+    </section>
+    <section>
+      <div class="filter-options">
+        <h2>Filter Results</h2>
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+          <option value="all">All Neighborhoods</option>
+        </select>
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+          <option value="all">All Cuisines</option>
+        </select>
+      </div>
+      <ul id="restaurants-list"></ul>
+    </section>
+  </main>
+  <script type="application/javascript" charset="utf-8" src="js/db_helper.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4qBTSKTKc20_SypgjCZsQ8E5d16CsIWM&libraries=places&callback=initMap"></script>
+
+
+  <footer id="footer">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+
 </body>
+
 </html>

@@ -11,6 +11,17 @@ createRestaurant.addEventListener('submit', (e) => {
     post('/createRestaurant', { name, neighborhood, photography, address, latlng, cuisineType, operatingHours })
 })
 
+document.getElementById('get_restaurant').addEventListener('click', (e) => {
+    e.preventDefault();
+    fetch('/getRestaurant')
+        .then((res) => {console.log(res); return res.json()})
+        .then((res) => {console.log(res)})
+
+
+
+})
+
+
 function post (path, data) {
     return window.fetch(path, {
         method: 'POST',
