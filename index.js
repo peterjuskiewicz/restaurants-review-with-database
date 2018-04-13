@@ -25,7 +25,18 @@ app.get('/getRestaurant', (req, res) => {
             console.log(response);
             res.send(response);
             res.end()});
-})
+});
+
+
+app.post('/addReview', (req, res) => {
+  store
+    .addRestaurant({
+        restaurantId: req.body.id,
+        review: req.body.reviews
+    })
+    .then(() => res.sendStatus(200));
+});
+
 
 app.listen(7555, () => {
   console.log("Server running on http://localhost:7555");

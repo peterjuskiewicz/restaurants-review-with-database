@@ -98,7 +98,7 @@ fillRestaurantHoursHTML = (operatingHours = JSON.parse(self.restaurant.operating
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = JSON.parse(self.restaurant.reviews)) => {
   const container = document.getElementById('reviews-container');
 
   const title1 = document.createElement('h2');
@@ -161,9 +161,14 @@ createReviewForm = () => {
                       </div>
 
                       <div>
-                      <input type="text" id="name" name="user_name">
+                      <input type="text" id="user_name" name="user_name">
                       <button type="submit">Send your review</button>
                       </div>`
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    addReview();
+  })
 
 
   return form;
@@ -197,7 +202,46 @@ getParameterByName = (name, url) => {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+/**
+ * Add review
+ */
+
+// "reviews": [{
+//         "name": "Steve",
+//         "date": "October 26, 2016",
+//         "rating": 4,
+//         "comments": "Mission Chinese Food has grown up from its scrappy Orchard Street days into a big, two story restaurant equipped with a pizza oven, a prime rib cart, and a much broader menu. Yes, it still has all the hits — the kung pao pastrami, the thrice cooked bacon —but chef/proprietor Danny Bowien and executive chef Angela Dimayuga have also added a raw bar, two generous family-style set menus, and showstoppers like duck baked in clay. And you can still get a lot of food without breaking the bank."
+//       },
 
 
+addReview = (id = location.search.replace(/[^0-9]/g, ""), restaurant = self.restaurant) => {
+
+  let reviews = restaurant.reviews ? restaurant.reviews : [];
+  console.log(reviews);
+  console.log(id);
+  let review = {};
+  review.name = document.getElementById('user_name').value;
+  review.date = new Date();
+  review.rating = 4;
+  review.comments = document.getElementById('msg').value;
+  console.log(review)
+  reviews.push(review);
+  let data = JSON.stringify({reviews, id})
+  console.log(reviews)
+  console.log(data)
+  fetch('/addReview', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: data
+    })
+  .then(res => {
+    console.log(res);
+    location.reload()
+  })
+
+}
 
 

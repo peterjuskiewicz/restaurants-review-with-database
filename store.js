@@ -18,5 +18,14 @@ module.exports = {
     getRestaurant() {
         console.log('get restaurants from db');
         return knex.select('*').from('restaurants').debug()
+    },
+
+    addRestaurant({restaurantId, review}) {
+        console.log(`Update restaurant ${restaurantId} with review ${review}`);
+        return knex('restaurants')
+        .where('id', restaurantId)
+        .update({
+            reviews: JSON.stringify(review)
+        }).debug()
     }
 };
