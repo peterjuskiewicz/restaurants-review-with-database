@@ -13,5 +13,10 @@ module.exports = {
             operatingHours
 
         }).debug()
+    },
+
+    getRestaurant() {
+        console.log('get restaurants from db');
+        return knex.select('*').from('restaurants').debug()
     }
 };

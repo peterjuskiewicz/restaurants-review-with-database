@@ -19,6 +19,14 @@ app.post('/createRestaurant', (req, res) => {
     .then(() => res.sendStatus(200));
 });
 
+app.get('/getRestaurant', (req, res) => {
+    store.getRestaurant()
+        .then((response) => {
+            console.log(response);
+            res.send(response);
+            res.end()});
+})
+
 app.listen(7555, () => {
   console.log("Server running on http://localhost:7555");
 });
