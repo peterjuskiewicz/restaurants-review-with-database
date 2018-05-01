@@ -4,7 +4,11 @@ let restaurants,
 var map
 var markers = []
 
-// the function that will change the body depending on the pathname
+
+
+ /**
+  * Insert body depending on location.search
+  */
 
 if(window.location.search == ''){
   document.body.innerHTML = `<header>
@@ -12,7 +16,6 @@ if(window.location.search == ''){
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
-
   <main id="maincontent">
     <section id="map-container">
       <div aria-label="Map" id="map"></div>
@@ -33,8 +36,6 @@ if(window.location.search == ''){
   <script type="application/javascript" charset="utf-8" src="js/db_helper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4qBTSKTKc20_SypgjCZsQ8E5d16CsIWM&libraries=places&callback=initMap"></script>
-
-
   <footer id="footer">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>`
@@ -53,31 +54,20 @@ if(window.location.search == ''){
 
 else {
   document.body.classList.add('inside');
-  document.getElementById('content').innerHTML =   `<!-- Beginning header -->
+  document.getElementById('content').innerHTML =   `
   <header>
-    <!-- Beginning nav -->
     <nav aria-label="Breadcrumb">
       <h1><a href="/">Restaurant Reviews</a></h1>
-          <!-- Beginning breadcrumb -->
       <ol id="breadcrumb" >
       <li><a href="/">Home</a></li>
     </ol>
-    <!-- End breadcrumb -->
     </nav>
-
-    <!-- End nav -->
   </header>
-  <!-- End header -->
-
-  <!-- Beginning main -->
   <main id="maincontent">
-    <!-- Beginning map -->
     <div class="flex-container">
       <section id="map-container">
         <div aria-label="Map" id="map"></div>
       </section>
-      <!-- End map -->
-      <!-- Beginning restaurant -->
       <section id="restaurant-container">
         <h2 id="restaurant-name"></h2>
         <img id="restaurant-img">
@@ -86,26 +76,17 @@ else {
         <table id="restaurant-hours"></table>
       </section>
     </div>
-    <!-- end restaurant -->
-    <!-- Beginning reviews -->
     <section id="reviews-container">
       <ul id="reviews-list"></ul>
     </section>
-    <!-- End reviews -->
   </main>
-  <!-- End main -->
-
-  <!-- Beginning footer -->
   <footer id="footer">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
-  </footer>
-  <!-- End footer -->`
+  </footer>`
 
   document.addEventListener('DOMContentLoaded', (event) => {
     intitalizeMapRestaurant();
   });
-
-
 }
 
 
