@@ -4,6 +4,8 @@ var map;
 /**
  * Initialize Google map, called from HTML.
  */
+
+const intitalizeMapRestaurant = () => {
 window.initMap = () => {
   fetchRestaurantFromURL((error, restaurant) => {
     if (error) { // Got an error!
@@ -19,6 +21,7 @@ window.initMap = () => {
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
+}
 }
 
 /**
@@ -206,19 +209,11 @@ getParameterByName = (name, url) => {
  * Add review
  */
 
-// "reviews": [{
-//         "name": "Steve",
-//         "date": "October 26, 2016",
-//         "rating": 4,
-//         "comments": "Mission Chinese Food has grown up from its scrappy Orchard Street days into a big, two story restaurant equipped with a pizza oven, a prime rib cart, and a much broader menu. Yes, it still has all the hits — the kung pao pastrami, the thrice cooked bacon —but chef/proprietor Danny Bowien and executive chef Angela Dimayuga have also added a raw bar, two generous family-style set menus, and showstoppers like duck baked in clay. And you can still get a lot of food without breaking the bank."
-//       },
-
-
 addReview = (id = location.search.replace(/[^0-9]/g, ""), restaurant = self.restaurant) => {
 
-  let reviews = restaurant.reviews ? restaurant.reviews : [];
-  console.log(reviews);
-  console.log(id);
+  let reviews = restaurant.reviews ? JSON.parse(restaurant.reviews) : [];
+  // console.log(reviews);
+  // console.log(id);
   let review = {};
   review.name = document.getElementById('user_name').value;
   review.date = new Date();
@@ -227,8 +222,8 @@ addReview = (id = location.search.replace(/[^0-9]/g, ""), restaurant = self.rest
   console.log(review)
   reviews.push(review);
   let data = JSON.stringify({reviews, id})
-  console.log(reviews)
-  console.log(data)
+  // console.log(reviews)
+  // console.log(data)
   fetch('/addReview', {
         method: 'POST',
         headers: {
@@ -238,7 +233,7 @@ addReview = (id = location.search.replace(/[^0-9]/g, ""), restaurant = self.rest
         body: data
     })
   .then(res => {
-    console.log(res);
+    // console.log(res);
     location.reload()
   })
 

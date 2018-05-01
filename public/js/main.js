@@ -4,14 +4,112 @@ let restaurants,
 var map
 var markers = []
 
-/**
- * Fetch neighborhoods and cuisines as soon as the page is loaded.
- */
-document.addEventListener('DOMContentLoaded', (event) => {
-  registerServiceWorker();
-  fetchNeighborhoods();
-  fetchCuisines();
-});
+// the function that will change the body depending on the pathname
+
+if(window.location.search == ''){
+  document.body.innerHTML = `<header>
+    <nav>
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+  </header>
+
+  <main id="maincontent">
+    <section id="map-container">
+      <div aria-label="Map" id="map"></div>
+    </section>
+    <section>
+      <div class="filter-options">
+        <h2>Filter Results</h2>
+        <select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
+          <option value="all">All Neighborhoods</option>
+        </select>
+        <select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
+          <option value="all">All Cuisines</option>
+        </select>
+      </div>
+      <ul id="restaurants-list"></ul>
+    </section>
+  </main>
+  <script type="application/javascript" charset="utf-8" src="js/db_helper.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB4qBTSKTKc20_SypgjCZsQ8E5d16CsIWM&libraries=places&callback=initMap"></script>
+
+
+  <footer id="footer">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>`
+
+  /**
+  * Fetch neighborhoods and cuisines as soon as the page is loaded.
+  */
+
+  document.addEventListener('DOMContentLoaded', (event) => {
+    fetchNeighborhoods();
+    fetchCuisines();
+    initializeMap();
+  });
+
+}
+
+else {
+  document.body.classList.add('inside');
+  document.getElementById('content').innerHTML =   `<!-- Beginning header -->
+  <header>
+    <!-- Beginning nav -->
+    <nav aria-label="Breadcrumb">
+      <h1><a href="/">Restaurant Reviews</a></h1>
+          <!-- Beginning breadcrumb -->
+      <ol id="breadcrumb" >
+      <li><a href="/">Home</a></li>
+    </ol>
+    <!-- End breadcrumb -->
+    </nav>
+
+    <!-- End nav -->
+  </header>
+  <!-- End header -->
+
+  <!-- Beginning main -->
+  <main id="maincontent">
+    <!-- Beginning map -->
+    <div class="flex-container">
+      <section id="map-container">
+        <div aria-label="Map" id="map"></div>
+      </section>
+      <!-- End map -->
+      <!-- Beginning restaurant -->
+      <section id="restaurant-container">
+        <h2 id="restaurant-name"></h2>
+        <img id="restaurant-img">
+        <p id="restaurant-cuisine"></p>
+        <p id="restaurant-address"></p>
+        <table id="restaurant-hours"></table>
+      </section>
+    </div>
+    <!-- end restaurant -->
+    <!-- Beginning reviews -->
+    <section id="reviews-container">
+      <ul id="reviews-list"></ul>
+    </section>
+    <!-- End reviews -->
+  </main>
+  <!-- End main -->
+
+  <!-- Beginning footer -->
+  <footer id="footer">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+  <!-- End footer -->`
+
+  document.addEventListener('DOMContentLoaded', (event) => {
+    intitalizeMapRestaurant();
+  });
+
+
+}
+
+
+
 
 registerServiceWorker = () => {
 
@@ -81,6 +179,9 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     select.append(option);
   });
 }
+
+
+const initializeMap = () => {
 
 /**
  * Initialize Google map, called from HTML.
@@ -192,4 +293,6 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
+}
+
 }
